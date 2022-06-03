@@ -1,14 +1,15 @@
 import express from "express";
 const router = express.Router();
-import { client } from "../index.js"
+import { 
+    getAllMovie,
+    getOneMovie,
+    createMovies,
+    deleteMoviesById, 
+    updateMovieById } from "./helper.js";
 
 router.get('/',  async function (req, res) {
     // db.movies.find({})
-    const movies = await client
-    .db("B33WD")
-    .collection("movies")
-    .find({})
-    .toArray();
+    const movies = await getAllMovie();
   
       res.send(movies)
       // console.log(movies);
@@ -24,10 +25,7 @@ router.get('/:id', async function (req, res) {
       // console.log(movies);
   
       // db.movies.findOne({id: '102 })
-     const movie = await client
-     .db("B33WD")
-     .collection("movies")
-     .findOne({ id : id });
+     const movie = await getOneMovie(id);
   
      movie 
       ? res.send(movie) 
@@ -38,7 +36,7 @@ router.post("/", async function(req, res){
       const data = req.body;
       console.log(data);
       // db.movies.insertMany(data)
-     const result = await client.db("B33WD").collection("movies").insertMany(data);
+     const result = await createMovies(data);
      res.send(result);
     })
   
@@ -47,10 +45,7 @@ router.delete('/:id', async function (req, res) {
       const { id } = req.params;
       
       // db.movies.deleteOne({id: '102 })
-     const movie = await client
-     .db("B33WD")
-     .collection("movies")
-     .deleteOne({ id : id });
+     const movie = await deleteMoviesById(id);
   
      movie.deleteCount > 0
       ? res.send(movie) 
@@ -64,12 +59,11 @@ router.put("/:id", async function(req, res){
       const { id } = req.params;
       // db.movies.updateOne({id : id}, {$set: data})
   
-     const result = await client
-        .db("B33WD")
-        .collection("movies")
-        .updateOne({id: id}, {$set: data});
+     const result = await updateMovieById(id, data);
   
      res.send(result);
     });
 
 export const moviesRouter = router;
+
+
