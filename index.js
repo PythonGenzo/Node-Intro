@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 
 
-const PORT = 4000;
+const PORT = process.env.PORT;
 
 // const movies = [
 //     {
@@ -136,5 +136,35 @@ app.get('/movies/:id', async function (req, res) {
    const result = await client.db("B33WD").collection("movies").insertMany(data);
    res.send(result);
   })
+
+  app.delete('/movies/:id', async function (req, res) {
+    console.log(req.params);
+    const { id } = req.params;
+    
+    // db.movies.deleteOne({id: '102 })
+   const movie = await client
+   .db("B33WD")
+   .collection("movies")
+   .deleteOne({ id : id });
+
+   movie.deleteCount > 0
+    ? res.send(movie) 
+    : res.status(404).send({msg: "no such movie found"})
+  });  
+
+    
+  app.put("/movies/:id", async function(req, res){
+    const data = req.body;
+    // console.log(data);
+    const { id } = request.params;
+    // db.movies.updateOne({id : id}, {$set: data})
+
+   const result = await client
+      .db("B33WD")
+      .collection("movies")
+      .updateOne({id: id}, {$set: data});
+
+   res.send(result);
+  });
 
 app.listen(PORT, ()=> console.log(`App Started in ${PORT}`));
