@@ -31,3 +31,17 @@ export async function getOneMovie(id) {
         .collection("movies")
         .findOne({ id: id });
 }
+
+// signup users
+export async function createUser(data) {
+    return await client.db("B33WD").collection("users").insertOne(data);
+}
+
+export async function getUserByName(username) {
+    const user = await client 
+    .db("B33WD")
+    .collection("users")
+    .findOne({ username: username });
+
+    return user;
+}
