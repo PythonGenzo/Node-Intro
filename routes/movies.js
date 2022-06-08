@@ -1,4 +1,5 @@
 import express from "express";
+import { auth } from "../middleware/auth.js";
 
 
 const router = express.Router();
@@ -9,7 +10,7 @@ import {
     deleteMoviesById, 
     updateMovieById } from "./helper.js";
 
-router.get('/',  async function (req, res) {
+router.get('/', async function (req, res) {
     // db.movies.find({})
     const movies = await getAllMovie();
   

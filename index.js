@@ -2,6 +2,7 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import cors from "cors";
 import { moviesRouter } from "./routes/movies.js";
 import { usersRouter } from "./routes/users.js";
 // import bcrypt from 'bcrypt';
@@ -13,6 +14,8 @@ const app = express();
 
 
 const PORT = process.env.PORT;
+
+app.use(cors());
 
 // const movies = [
 //     {
